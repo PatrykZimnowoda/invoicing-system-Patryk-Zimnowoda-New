@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class Invoice {
+
   private Integer id; // Użycie obiektowej wersji int pozwala na przyjmowanie wartości null
   private LocalDate date;
   private Company companyFrom;

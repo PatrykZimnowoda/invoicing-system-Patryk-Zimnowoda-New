@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class Company {
+
   private Integer id;
   private String taxIdentificationNumber;
   private String address;
