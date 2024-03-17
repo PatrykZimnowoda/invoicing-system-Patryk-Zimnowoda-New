@@ -4,7 +4,7 @@ import spock.lang.Specification
 
 import spock.lang.Specification
 
-class VatSpec extends Specification {
+class VatTest extends Specification {
 
     def "Vat enum should have correct rates"() {
         expect:

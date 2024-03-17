@@ -5,7 +5,7 @@ import spock.lang.Specification
 import java.time.LocalDate
 
 
-class InvoiceSpec extends Specification {
+class InvoiceTest extends Specification {
 
     def "should create invoice with all fields initialized"() {
         given:

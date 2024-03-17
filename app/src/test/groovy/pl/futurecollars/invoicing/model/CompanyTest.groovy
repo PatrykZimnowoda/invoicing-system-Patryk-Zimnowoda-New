@@ -2,7 +2,7 @@ package pl.futurecollars.invoicing.model
 
 import spock.lang.Specification
 
-class CompanySpec extends Specification {
+class CompanyTest extends Specification {
     def "should correctly create Company instance"() {
         given:
         def taxId = "123-456-78-90"

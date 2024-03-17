@@ -3,7 +3,7 @@ package pl.futurecollars.invoicing.db.memory
 import pl.futurecollars.invoicing.model.Invoice
 import spock.lang.Specification
 
-class InMemoryDatabaseSpec extends Specification {
+class InMemoryDatabaseTest extends Specification {
 
     InMemoryDatabase database = new InMemoryDatabase()
 

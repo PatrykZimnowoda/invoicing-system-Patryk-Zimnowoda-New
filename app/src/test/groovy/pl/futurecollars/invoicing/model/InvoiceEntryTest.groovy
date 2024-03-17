@@ -3,7 +3,7 @@ package pl.futurecollars.invoicing.model
 import spock.lang.Specification
 
 
-class InvoiceEntrySpec extends Specification {
+class InvoiceEntryTest extends Specification {
 
     def "should create invoice entry with correct values"() {
         given:
