@@ -5,11 +5,20 @@ import pl.futurecollars.invoicing.utils.FileService
 import pl.futurecollars.invoicing.utils.JsonService
 import spock.lang.Specification
 
+import java.nio.file.Files
+import java.nio.file.Paths
+
 class FileBasedDatabaseMultiInvoices extends Specification {
 
     FileService fileService = new FileService()
     JsonService jsonService = new JsonService()
     FileBasedDatabase database = new FileBasedDatabase(fileService, jsonService, "test-invoices.json", "test-id.txt")
+
+    def setup() {
+        if (!Files.exists(Paths.get("test-id.txt"))) {
+            new File("test-id.txt").createNewFile()
+        }
+    }
 
     def cleanup() {
         new File("test-invoices.json").delete()
@@ -20,10 +29,8 @@ class FileBasedDatabaseMultiInvoices extends Specification {
 
         given: "multiple invoices in the database"
         Invoice invoice1 = new Invoice()
-        invoice1.setId(1)
         database.save(invoice1)
         Invoice invoice2 = new Invoice()
-        invoice2.setId(2)
         database.save(invoice2)
 
         when: "all invoices are retrieved"

@@ -16,6 +16,11 @@ class FileBasedDatabase2 extends Specification {
     JsonService jsonService = new JsonService()
     FileBasedDatabase database = new FileBasedDatabase(fileService, jsonService, "test-invoices.json", "test-id.txt")
 
+    def setup() {
+        new File("test-invoices.json").createNewFile()
+        new File("test-id.txt").createNewFile()
+    }
+
     def cleanup() {
         new File("test-invoices.json").delete()
         new File("test-id.txt").delete()
@@ -24,7 +29,6 @@ class FileBasedDatabase2 extends Specification {
     def "should get invoice by id"() {
         given: "an invoice"
         Invoice invoice = new Invoice()
-        invoice.setId(1)
         invoice.setDate(LocalDate.now())
         Company companyFrom = new Company(1, "1234567890", "Address 1")
         invoice.setCompanyFrom(companyFrom)
@@ -36,20 +40,19 @@ class FileBasedDatabase2 extends Specification {
         invoice.setEntries(entries)
 
         when: "the invoice is saved"
-        database.save(invoice)
+        Invoice savedInvoice = database.save(invoice)
 
         and: "the invoice is retrieved by id"
-        Optional<Invoice> retrievedInvoice = database.getById(1)
+        Optional<Invoice> retrievedInvoice = database.getById(savedInvoice.getId())
 
         then: "the retrieved invoice is correct"
         retrievedInvoice.isPresent()
-        retrievedInvoice.get() == invoice
+        retrievedInvoice.get() == savedInvoice
     }
 
     def "should update invoice"() {
         given: "an invoice"
         Invoice invoice = new Invoice()
-        invoice.setId(1)
         invoice.setDate(LocalDate.now())
         Company companyFrom = new Company(1, "1234567890", "Address 1")
         invoice.setCompanyFrom(companyFrom)
@@ -61,14 +64,14 @@ class FileBasedDatabase2 extends Specification {
         invoice.setEntries(entries)
 
         and: "the invoice is saved"
-        database.save(invoice)
+        Invoice savedInvoice = database.save(invoice)
 
         and: "an updated invoice"
         Invoice updatedInvoice = new Invoice()
-        updatedInvoice.setId(1)
+        updatedInvoice.setId(savedInvoice.getId())
 
         when: "the invoice is updated"
-        Invoice resultInvoice = database.update(1, updatedInvoice)
+        Invoice resultInvoice = database.update(savedInvoice.getId(), updatedInvoice)
 
         then: "the updated invoice is correct"
         resultInvoice == updatedInvoice
@@ -77,7 +80,6 @@ class FileBasedDatabase2 extends Specification {
     def "should delete invoice"() {
         given: "an invoice"
         Invoice invoice = new Invoice()
-        invoice.setId(1)
         invoice.setDate(LocalDate.now())
         Company companyFrom = new Company(1, "1234567890", "Address 1")
         invoice.setCompanyFrom(companyFrom)
@@ -89,10 +91,10 @@ class FileBasedDatabase2 extends Specification {
         invoice.setEntries(entries)
 
         and: "the invoice is saved"
-        database.save(invoice)
+        Invoice savedInvoice = database.save(invoice)
 
         when: "the invoice is deleted"
-        boolean deleted = database.delete(1)
+        boolean deleted = database.delete(savedInvoice.getId())
 
         then: "the invoice is deleted correctly"
         deleted == true

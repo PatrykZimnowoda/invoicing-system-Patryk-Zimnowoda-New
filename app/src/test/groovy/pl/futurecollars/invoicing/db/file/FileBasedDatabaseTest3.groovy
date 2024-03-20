@@ -26,46 +26,43 @@ class FileBasedDatabaseTest3 extends Specification {
     def "should update invoice when given existing id"() {
         given: "an existing invoice and an updated invoice"
         Invoice existingInvoice = new Invoice()
-        existingInvoice.setId(1)
-        database.save(existingInvoice)
+        Invoice savedInvoice = database.save(existingInvoice)
         Invoice updatedInvoice = new Invoice()
-        updatedInvoice.setId(1)
+        updatedInvoice.setId(savedInvoice.getId())
         InvoiceEntry updatedEntry = new InvoiceEntry("Service", new BigDecimal("100.00"), new BigDecimal("23.00"), Vat.VAT_23)
         updatedInvoice.setEntries([updatedEntry])
 
         when: "the invoice is updated"
-        database.update(1, updatedInvoice)
+        database.update(savedInvoice.getId(), updatedInvoice)
 
         then: "the updated invoice is retrieved"
-        Invoice retrievedInvoice = database.getById(1).get()
+        Invoice retrievedInvoice = database.getById(savedInvoice.getId()).get()
         retrievedInvoice.getEntries()[0].getPrice() == new BigDecimal("100.00")
     }
 
     def "should delete invoice when given existing id"() {
         given: "an existing invoice"
         Invoice existingInvoice = new Invoice()
-        existingInvoice.setId(1)
-        database.save(existingInvoice)
+        Invoice savedInvoice = database.save(existingInvoice)
 
         when: "the invoice is deleted"
-        database.delete(1)
+        database.delete(savedInvoice.getId())
 
         then: "the invoice is not found"
-        !database.getById(1).isPresent()
+        !database.getById(savedInvoice.getId()).isPresent()
     }
 
     def "should return invoice when given existing id"() {
         given: "an existing invoice"
         Invoice existingInvoice = new Invoice()
-        existingInvoice.setId(1)
-        database.save(existingInvoice)
+        Invoice savedInvoice = database.save(existingInvoice)
 
         when: "the invoice is retrieved by id"
-        Optional<Invoice> retrievedInvoice = database.getById(1)
+        Optional<Invoice> retrievedInvoice = database.getById(savedInvoice.getId())
 
         then: "the retrieved invoice matches the existing invoice"
         retrievedInvoice.isPresent()
-        retrievedInvoice.get().getId() == 1
+        retrievedInvoice.get().getId() == savedInvoice.getId()
     }
 
     def "should throw exception when updating non-existing invoice"() {

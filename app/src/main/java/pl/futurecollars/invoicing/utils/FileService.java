@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +38,14 @@ public class FileService {
       for (String line : lines) {
         fileWriter.write(line + System.lineSeparator());
       }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void appendLines(List<String> lines, String filePath) {
+    try {
+      Files.write(Path.of(filePath), lines, StandardOpenOption.APPEND);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

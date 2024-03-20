@@ -13,20 +13,21 @@ public class FileBasedDatabase implements Database {
   private final FileService fileService;
   private final JsonService jsonService;
   private final String invoicesFilePath;
-  private final String idFilePath;
+  private final IdService idService;
 
   public FileBasedDatabase(FileService fileService, JsonService jsonService, String invoicesFilePath, String idFilePath) {
     this.fileService = fileService;
     this.jsonService = jsonService;
     this.invoicesFilePath = invoicesFilePath;
-    this.idFilePath = idFilePath;
+    this.idService = new IdService(idFilePath, fileService);
   }
 
   @Override
   public Invoice save(Invoice invoice) {
+    int nextId = idService.getNextId();
+    invoice.setId(nextId);
     String json = jsonService.toJson(invoice);
     fileService.writeLine(json, invoicesFilePath);
-    fileService.writeLine(String.valueOf(invoice.getId()), idFilePath);
     return invoice;
   }
 

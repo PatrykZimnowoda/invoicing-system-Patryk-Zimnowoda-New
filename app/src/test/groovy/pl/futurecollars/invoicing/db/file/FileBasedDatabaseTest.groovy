@@ -24,7 +24,6 @@ class FileBasedDatabaseTest extends Specification {
     def "should save invoice"() {
         given: "an invoice"
         Invoice invoice = new Invoice()
-        invoice.setId(1)
         invoice.setDate(LocalDate.now())
         Company companyFrom = new Company(1, "1234567890", "Address 1")
         invoice.setCompanyFrom(companyFrom)
@@ -35,14 +34,14 @@ class FileBasedDatabaseTest extends Specification {
         entries.add(entry)
         invoice.setEntries(entries)
 
+        fileService.readLines(_) >> []
+
         when: "the invoice is saved"
         Invoice savedInvoice = database.save(invoice)
 
         then: "the invoice is saved correctly"
         1 * fileService.writeLine(_, "test-invoices.json")
-        1 * fileService.writeLine(_, "test-id.txt")
+        1 * fileService.writeLines(['1'], "test-id.txt")
         savedInvoice == invoice
     }
-
-
 }
