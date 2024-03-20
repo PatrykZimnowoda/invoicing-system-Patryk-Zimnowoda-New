@@ -16,6 +16,11 @@ class FileBasedDatabaseTest extends Specification {
     JsonService jsonService = Mock()
     FileBasedDatabase database = new FileBasedDatabase(fileService, jsonService, "test-invoices.json", "test-id.txt")
 
+    def cleanup() {
+        new File("test-invoices.json").delete()
+        new File("test-id.txt").delete()
+    }
+
     def "should save invoice"() {
         given: "an invoice"
         Invoice invoice = new Invoice()

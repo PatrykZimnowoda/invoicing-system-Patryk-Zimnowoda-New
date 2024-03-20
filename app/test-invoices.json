@@ -1,1 +1,0 @@
-{"id":1,"date":"2024-03-20","companyFrom":{"id":1,"taxIdentificationNumber":"1234567890","address":"Address 1"},"companyTo":{"id":2,"taxIdentificationNumber":"0987654321","address":"Address 2"},"entries":[{"description":"Product Description","price":50.0,"vatValue":10.0,"vatRate":"VAT_23"}]}

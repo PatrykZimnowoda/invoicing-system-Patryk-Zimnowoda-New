@@ -16,6 +16,10 @@ class FileBasedDatabase2 extends Specification {
     JsonService jsonService = new JsonService()
     FileBasedDatabase database = new FileBasedDatabase(fileService, jsonService, "test-invoices.json", "test-id.txt")
 
+    def cleanup() {
+        new File("test-invoices.json").delete()
+        new File("test-id.txt").delete()
+    }
 
     def "should get invoice by id"() {
         given: "an invoice"
