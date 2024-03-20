@@ -4,6 +4,7 @@ import java.util.List;
 import pl.futurecollars.invoicing.utils.FileService;
 
 public class IdService {
+
   private final String idFilePath;
   private final FileService fileService;
 
