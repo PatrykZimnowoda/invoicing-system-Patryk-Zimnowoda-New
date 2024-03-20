@@ -9,6 +9,7 @@ import pl.futurecollars.invoicing.utils.FileService;
 import pl.futurecollars.invoicing.utils.JsonService;
 
 public class FileBasedDatabase implements Database {
+
   private final FileService fileService;
   private final JsonService jsonService;
   private final String invoicesFilePath;

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileService {
+
   public void writeLine(String line, String filePath) {
     try (FileWriter fileWriter = new FileWriter(filePath, true)) {
       fileWriter.write(line + System.lineSeparator());
