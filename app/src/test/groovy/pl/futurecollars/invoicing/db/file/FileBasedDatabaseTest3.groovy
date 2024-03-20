@@ -18,6 +18,11 @@ class FileBasedDatabaseTest3 extends Specification {
         new File("test-id.txt").delete()
     }
 
+    def setup() {
+        new File("test-invoices.json").createNewFile()
+        new File("test-id.txt").createNewFile()
+    }
+
     def "should update invoice when given existing id"() {
         given: "an existing invoice and an updated invoice"
         Invoice existingInvoice = new Invoice()
@@ -61,5 +66,17 @@ class FileBasedDatabaseTest3 extends Specification {
         then: "the retrieved invoice matches the existing invoice"
         retrievedInvoice.isPresent()
         retrievedInvoice.get().getId() == 1
+    }
+
+    def "should throw exception when updating non-existing invoice"() {
+        given: "an invoice that does not exist in the database"
+        Invoice nonExistingInvoice = new Invoice()
+        nonExistingInvoice.setId(999) // assuming 999 is an ID that does not exist in the database
+
+        when: "attempting to update the non-existing invoice"
+        database.update(999, nonExistingInvoice)
+
+        then: "an IllegalArgumentException is thrown"
+        thrown(IllegalArgumentException)
     }
 }
