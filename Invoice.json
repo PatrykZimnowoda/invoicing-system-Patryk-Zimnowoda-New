@@ -1,0 +1,25 @@
+{
+  "id" : 2,
+  "date" : "2024-03-20",
+  "companyFrom" : {
+    "id" : 2,
+    "taxIdentificationNumber" : "1323",
+    "address" : "exa3mple"
+  },
+  "companyTo" : {
+    "id" : 1,
+    "taxIdentificationNumber" : "123",
+    "address" : "example"
+  },
+  "entries" : [ {
+    "description" : "product1",
+    "price" : 123,
+    "vatValue" : 12,
+    "vatRate" : "VAT_8"
+  }, {
+    "description" : "product2",
+    "price" : 123,
+    "vatValue" : 12,
+    "vatRate" : "VAT_8"
+  } ]
+}
