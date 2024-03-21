@@ -27,7 +27,9 @@ public class FileBasedDatabase implements Database {
     int nextId = idService.getNextId();
     invoice.setId(nextId);
     String json = jsonService.toJson(invoice);
-    fileService.writeLine(json, invoicesFilePath);
+    List<String> lines = fileService.readLines(invoicesFilePath);
+    lines.add(json);
+    fileService.writeLines(lines, invoicesFilePath);
     return invoice;
   }
 
@@ -42,6 +44,7 @@ public class FileBasedDatabase implements Database {
   public List<Invoice> getAll() {
     List<String> lines = fileService.readLines(invoicesFilePath);
     return lines.stream()
+        .filter(line -> !line.isBlank())
         .map(line -> jsonService.fromJson(line, Invoice.class))
         .collect(Collectors.toList());
   }

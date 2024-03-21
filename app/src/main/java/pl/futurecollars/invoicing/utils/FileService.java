@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +14,14 @@ import java.util.List;
 public class FileService {
 
   public void writeLine(String line, String filePath) {
-    try (FileWriter fileWriter = new FileWriter(filePath, true)) {
-      fileWriter.write(line + System.lineSeparator());
+    try {
+      Path path = Paths.get(filePath);
+      if (!Files.exists(path)) {
+        Files.createFile(path);
+      }
+      try (FileWriter fileWriter = new FileWriter(filePath, true)) {
+        fileWriter.write(line + System.lineSeparator());
+      }
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -45,9 +52,25 @@ public class FileService {
 
   public void appendLines(List<String> lines, String filePath) {
     try {
-      Files.write(Path.of(filePath), lines, StandardOpenOption.APPEND);
+      Path path = Paths.get(filePath);
+      if (!Files.exists(path)) {
+        Files.createFile(path);
+      }
+      Files.write(path, lines, StandardOpenOption.APPEND);
     } catch (IOException e) {
       throw new RuntimeException(e);
+    }
+  }
+
+  public void appendLine(String line, String filePath) {
+    try {
+      Path path = Paths.get(filePath);
+      if (!Files.exists(path)) {
+        Files.createFile(path);
+      }
+      Files.write(path, (line + System.lineSeparator()).getBytes(), StandardOpenOption.APPEND);
+    } catch (IOException e) {
+      throw new RuntimeException("Failed to append line to file " + filePath, e);
     }
   }
 }

@@ -26,6 +26,26 @@ class FileBasedDatabase2 extends Specification {
         new File("test-id.txt").delete()
     }
 
+    def "should save invoice"() {
+        given: "an invoice"
+        Invoice invoice = new Invoice()
+        invoice.setDate(LocalDate.now())
+        Company companyFrom = new Company(1, "1234567890", "Address 1")
+        invoice.setCompanyFrom(companyFrom)
+        Company companyTo = new Company(2, "0987654321", "Address 2")
+        invoice.setCompanyTo(companyTo)
+        List<InvoiceEntry> entries = new ArrayList<>()
+        InvoiceEntry entry = new InvoiceEntry("Product Description", BigDecimal.valueOf(50.00), BigDecimal.valueOf(10.00), Vat.VAT_23)
+        entries.add(entry)
+        invoice.setEntries(entries)
+
+        when: "the invoice is saved"
+        Invoice savedInvoice = database.save(invoice)
+
+        then: "the invoice is saved correctly"
+        savedInvoice == invoice
+    }
+
     def "should get invoice by id"() {
         given: "an invoice"
         Invoice invoice = new Invoice()

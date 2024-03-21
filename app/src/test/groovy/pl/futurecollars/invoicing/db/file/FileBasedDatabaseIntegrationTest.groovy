@@ -20,9 +20,8 @@ class FileBasedDatabaseIntegrationTest extends Specification {
     FileBasedDatabase database = new FileBasedDatabase(fileService, jsonService, "test-invoices.json", "test-id.txt")
 
     def setup() {
-        if (!Files.exists(Paths.get("test-id.txt"))) {
-            new File("test-id.txt").createNewFile()
-        }
+        new File("test-invoices.json").createNewFile()
+        new File("test-id.txt").createNewFile()
     }
 
     def cleanup() {
