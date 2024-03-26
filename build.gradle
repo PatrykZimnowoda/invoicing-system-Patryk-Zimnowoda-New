@@ -115,3 +115,6 @@ jacocoTestCoverageVerification {
         }))
     }
 }
+startScripts {
+    dependsOn bootJar
+}
