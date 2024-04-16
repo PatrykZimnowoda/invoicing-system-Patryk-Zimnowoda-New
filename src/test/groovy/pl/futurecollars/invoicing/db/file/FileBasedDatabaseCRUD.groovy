@@ -14,8 +14,8 @@ class FileBasedDatabase2 extends Specification {
 
     FileService fileService = new FileService()
     JsonService jsonService = new JsonService()
-    FileBasedDatabase database = new FileBasedDatabase(fileService, jsonService, "test-invoices.json", "test-id.txt")
-
+    IdService idService = new IdService("test-id.txt", fileService)
+    FileBasedDatabase database = new FileBasedDatabase(fileService, jsonService, "test-invoices.json", idService)
     def setup() {
         new File("test-invoices.json").createNewFile()
         new File("test-id.txt").createNewFile()
