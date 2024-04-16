@@ -15,11 +15,11 @@ public class FileBasedDatabase implements Database {
   private final String invoicesFilePath;
   private final IdService idService;
 
-  public FileBasedDatabase(FileService fileService, JsonService jsonService, String invoicesFilePath, String idFilePath) {
+  public FileBasedDatabase(FileService fileService, JsonService jsonService, String invoicesFilePath, IdService idService) {
     this.fileService = fileService;
     this.jsonService = jsonService;
     this.invoicesFilePath = invoicesFilePath;
-    this.idService = new IdService(idFilePath, fileService);
+    this.idService = idService;
   }
 
   @Override

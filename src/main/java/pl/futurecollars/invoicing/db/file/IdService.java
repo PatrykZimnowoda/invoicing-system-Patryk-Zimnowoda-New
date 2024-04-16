@@ -1,8 +1,10 @@
 package pl.futurecollars.invoicing.db.file;
 
 import java.util.List;
+import org.springframework.stereotype.Service;
 import pl.futurecollars.invoicing.utils.FileService;
 
+@Service
 public class IdService {
 
   private final String idFilePath;
